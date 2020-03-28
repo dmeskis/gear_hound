@@ -1,4 +1,4 @@
-FROM ruby:2.7.0
+FROM ruby:2.7.0-alpine
 
 RUN apk update && apk add build-base nodejs postgresql-dev imagemagick
 

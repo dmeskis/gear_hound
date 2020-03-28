@@ -9,7 +9,7 @@ WORKDIR $APP_HOME
 # Install app dependencies
 COPY package.json $APP_HOME/
 COPY yarn.lock $APP_HOME/
-RUN yarn install
+RUN yarn install --ignore-engines
 
 COPY . $APP_HOME
 

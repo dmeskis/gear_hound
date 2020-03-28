@@ -5,7 +5,7 @@ services:
     volumes:
       - 'postgres:/var/lib/postgresql/data'
     env_file:
-      - '.env'
+      - './server/.env'
 
   redis:
     image: 'redis:4.0-alpine'
@@ -16,14 +16,14 @@ services:
       - 'redis:/data'
 
   sidekiq:
-    build: .
+    build: ./server
     depends_on:
       - postgres
       - redis
     volumes:
       - ./server:/app
     env_file:
-      - '.env'
+      - './server/.env'
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
@@ -76,7 +76,7 @@ services:
   server:
     build: ./server
     container_name: server
-    # command: /bin/bash -c 'rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b "0.0.0.0"'
+    command: /bin/bash -c 'rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b "0.0.0.0"'
     depends_on:
       - postgres
       - redis
@@ -87,23 +87,9 @@ services:
     volumes:
       - ./server:/app
     env_file:
-      - .env
+      - ./server/.env
     tty: true
     stdin_open: true
-
-    # build: ./api
-    # container_name: sample_app_api
-    # command: /bin/bash -c 'rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b "0.0.0.0"'
-    # ports:
-    #   - '3000:3000'
-    # depends_on:
-    #   - db
-    # volumes:
-    #   - ./api:/app
-    #   - bundle:/usr/local/bundle
-    #   - db_data:/var/lib/postgresql/data
-    # environment:
-    #   RAILS_ENV: development
 
   client:
     build: ./client
@@ -114,6 +100,8 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
+    env_file:
+      - ./client/.env
     depends_on:
       - server
 
@@ -121,4 +109,4 @@ volumes:
   redis: {}
   postgres: {}
   elasticsearch: {}
-  dynamodb: {}
+  # dynamodb: {}
