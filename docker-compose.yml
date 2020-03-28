@@ -1,0 +1,124 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:10.3-alpine'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    env_file:
+      - '.env'
+
+  redis:
+    image: 'redis:4.0-alpine'
+    command: redis-server
+    ports:
+      - 6379:6379
+    volumes:
+      - 'redis:/data'
+
+  sidekiq:
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./server:/app
+    env_file:
+      - '.env'
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    container_name: elasticsearch
+    environment:
+      - cluster.name=elasticsearch-local
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS= -Dlog4j2.disable.jmx=true -Xms2048m -Xmx2048m"
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  # dynamodb:
+  #   container_name: dynamodb
+  #   image: amazon/dynamodb-local:latest
+  #   environment:
+  #     - ./Djava.library.path=./DynamoDBLocal_lib
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - dynamodb:/home/dynamodblocal
+  #   working_dir: /home/dynamodblocal
+  #   command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./"]
+
+  # WebSockets (https://github.com/rails/rails/tree/master/actioncable)
+  # cable:
+  #   depends_on:
+  #     - 'redis'
+  #   build: .
+  #   command: puma -p 28080 cable/config.ru
+  #   ports:
+  #     - '28080:28080'
+  #   volumes:
+  #     - './server:/app'
+  #   env_file:
+  #     - '.env'
+
+  server:
+    build: ./server
+    container_name: server
+    # command: /bin/bash -c 'rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b "0.0.0.0"'
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+      # - dynamodb
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./server:/app
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+
+    # build: ./api
+    # container_name: sample_app_api
+    # command: /bin/bash -c 'rm -rf tmp/pids/server.pid && bundle exec rails s -p 3000 -b "0.0.0.0"'
+    # ports:
+    #   - '3000:3000'
+    # depends_on:
+    #   - db
+    # volumes:
+    #   - ./api:/app
+    #   - bundle:/usr/local/bundle
+    #   - db_data:/var/lib/postgresql/data
+    # environment:
+    #   RAILS_ENV: development
+
+  client:
+    build: ./client
+    container_name: client
+    # command: yarn serve
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+
+volumes:
+  redis: {}
+  postgres: {}
+  elasticsearch: {}
+  dynamodb: {}
