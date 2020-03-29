@@ -9,7 +9,6 @@ WORKDIR $APP_HOME
 # Install app dependencies
 COPY package.json $APP_HOME/
 COPY yarn.lock $APP_HOME/
-# RUN apt-get install dh-autoreconf
 RUN yarn install
 
 COPY . $APP_HOME
