@@ -1,5 +1,5 @@
-FROM node:9.11.1-alpine
-MAINTAINER Dylan Meskis <dmeskis@gmail.com>
+FROM node:10
+LABEL Dylan Meskis <dmeskis@gmail.com>
 
 ENV APP_HOME /app
 #
@@ -9,9 +9,10 @@ WORKDIR $APP_HOME
 # Install app dependencies
 COPY package.json $APP_HOME/
 COPY yarn.lock $APP_HOME/
-RUN yarn install --ignore-engines
+# RUN apt-get install dh-autoreconf
+RUN yarn install
 
 COPY . $APP_HOME
 
 EXPOSE 4000
-CMD ["yarn", "dev"]
+CMD ["yarn", "serve"]

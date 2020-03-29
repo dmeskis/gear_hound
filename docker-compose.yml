@@ -94,7 +94,7 @@ services:
   client:
     build: ./client
     container_name: client
-    # command: yarn serve
+    command: yarn serve
     ports:
       - '4000:4000'
     volumes:
