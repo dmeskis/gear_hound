@@ -1,5 +1,9 @@
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@x.y.z
+  aws-ecs: circleci/aws-ecs@0x.y.z
+
 parameters:
   # This parameter is used to trigger the main workflow
   trigger:
@@ -80,7 +84,11 @@ jobs:
 
 workflows:
   version: 2
-
+  build-and-deploy:
+    jobs:
+      - aws-ecr/build_and_push_image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
   # The main workflow responsible for triggering all other workflows
   # in which changes are detected.
   ci:
