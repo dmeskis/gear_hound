@@ -14,5 +14,5 @@ RUN yarn install
 
 COPY . $APP_HOME
 
-EXPOSE 4000
-CMD ["yarn", "serve"]
+EXPOSE 8080
+CMD ["yarn", "dev"]
