@@ -1,9 +1,8 @@
 module Crud
   extend ActiveSupport::Concern
   included do
-    before_action :cache_context_options, :cache_helper_variables, :cache_query, :parse_custom_attrs
+    before_action :cache_context_options, :cache_helper_variables, :cache_query
     include QueryCache
-    include CustomAttributes
     include Query
     include Serialize
     include Include

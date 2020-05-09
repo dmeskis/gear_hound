@@ -18,7 +18,7 @@ module Auth
     end
 
     def cache_session_user
-      @current_user = User.includes([:groups, :networks]).find_by_id(session[:identity]) if session[:identity]
+      @current_user = User.find_by(id: session[:identity]) if session[:identity]
     end
 
     def require_session

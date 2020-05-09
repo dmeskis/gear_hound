@@ -112,7 +112,8 @@ module Serialize
   def plurality?(model)
     # This will determine whether the model passed in is a list of models of some kind or not
     # and set the key appropriately
-    plurality = model.is_a?(Array) || model.is_a?(ActiveRecord::Relation) || model.is_a?(Elasticsearch::Model::Response::Results) || model.is_a?(Elasticsearch::Model::Response::Records)
+    # plurality = model.is_a?(Array) || model.is_a?(ActiveRecord::Relation) || model.is_a?(Elasticsearch::Model::Response::Results) || model.is_a?(Elasticsearch::Model::Response::Records)
+    plurality = model.is_a?(Array) || model.is_a?(ActiveRecord::Relation)
     key = plurality ? :"#{model.first.model_name.route_key}" : :"#{model.model_name.singular_route_key}"
     [plurality, key]
   end
