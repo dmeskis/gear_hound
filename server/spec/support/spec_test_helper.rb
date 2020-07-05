@@ -1,15 +1,19 @@
 module SpecTestHelper
   def signin(user)
-    post 
+    session_params = {
+      email: user.email,
+      password: user.password
+    }
+    post '/session', params: { session: session_params }
   end
 
   def signout
-    cookies[:identity] = nil
+    # cookies[:identity] = nil
   end
 
-  def current_user
-    User.find(session[:identity])
-  end
+  # def current_user
+  #   User.find(session[:identity])
+  # end
 end
 
 RSpec.configure do |config|

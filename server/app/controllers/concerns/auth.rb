@@ -18,10 +18,13 @@ module Auth
     end
 
     def cache_session_user
+      p @current_user
+      p session
       @current_user = User.find_by(id: session[:identity]) if session[:identity]
     end
 
     def require_session
+      p @current_user
       return error([:unauthorized_request]) unless @current_user
     end
 
@@ -30,14 +33,10 @@ module Auth
     end
 
     def cache_session
-      if @current_user
-        p 'caching session'
-        # session_cache = CacheHelper.get_kv(:user_session_cache, @current_user)
-        # @current_session = UserSessionCache.clean_value(session_cache)
-        # @current_group = Group.find_by(id: @current_session[:group_id]) if @current_session[:group_id]
-      end
+      @current_session = {
+        user_id: @current_user.id
+      }
     end
-
 
     def cache_session_timeout
       if @current_user && @current_group && @current_group.has_session_timeout?

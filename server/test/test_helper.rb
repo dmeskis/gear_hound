@@ -29,15 +29,15 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  def signin(user)
-    session[:identity] = user.id
-  end
+  # def signin(user)
+  #   session[:identity] = user.id
+  # end
 
-  def signout
-    session[:identity] = nil
-  end
+  # def signout
+  #   session[:identity] = nil
+  # end
 
-  def json
-    ActiveSupport::JSON.decode(response.body)
-  end
+  # def json
+  #   ActiveSupport::JSON.decode(response.body)
+  # end
 end
