@@ -7,9 +7,18 @@ RSpec.describe "Users", type: :request do
   end
 
   describe 'POST #create' do
-    it 'creates a session' do
+    it 'creates a session using email' do
       session_params = {
-        email: @user.email,
+        username: @user.email,
+        password: @user.password
+      }
+      post '/session', params: { session: session_params }
+      expect(response).to be_successful
+    end
+
+    it 'creates a session using username' do
+      session_params = {
+        username: @user.username,
         password: @user.password
       }
       post '/session', params: { session: session_params }

@@ -6,7 +6,6 @@ class JsonWebToken
       payload[:exp] = exp.to_i
 
        # this encodes the user data(payload) with our secret key
-       p "logging env secret key base, #{ENV['SECRET_KEY_BASE']}"
       JWT.encode(payload, ENV['SECRET_KEY_BASE'])
     end
 
