@@ -11,32 +11,22 @@ export default {
   components: { Layout },
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       authError: null,
       tryingToLogIn: false,
     }
   },
-  computed: {
-    placeholders() {
-      return process.env.NODE_ENV === 'production'
-        ? {}
-        : {
-            username: 'Use "admin" to log in with the mock API',
-            password: 'Use "password" to log in with the mock API',
-          }
-    },
-  },
   methods: {
     ...authMethods,
-    // Try to log the user in with the username
+    // Try to log the user in with the email
     // and password they provided.
     tryToLogIn() {
       this.tryingToLogIn = true
       // Reset the authError if it existed.
       this.authError = null
       return this.logIn({
-        username: this.username,
+        email: this.email,
         password: this.password,
       })
         .then((token) => {
@@ -58,15 +48,15 @@ export default {
   <Layout>
     <form :class="$style.form" @submit.prevent="tryToLogIn">
       <BaseInputText
-        v-model="username"
-        name="username"
-        :placeholder="placeholders.username"
+        v-model="email"
+        name="email"
+        placeholder="email"
       />
       <BaseInputText
         v-model="password"
         name="password"
         type="password"
-        :placeholder="placeholders.password"
+        placeholder="Password"
       />
       <BaseButton :disabled="tryingToLogIn" type="submit">
         <BaseIcon v-if="tryingToLogIn" name="sync" spin />
