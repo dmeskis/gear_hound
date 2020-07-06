@@ -5,6 +5,7 @@ RSpec.describe "Users", type: :request do
   before(:all) do
     @user = create(:user)
   end
+  
   describe 'POST #create' do
     it 'creates a user' do
       user = build(:user)
@@ -21,11 +22,9 @@ RSpec.describe "Users", type: :request do
     end
 
     it 'gets a user' do
-      signin @user
-      get '/api/v1/users/:id', params: { id: @user.id }
-      binding.pry
+      get api_v1_user_path(@user), headers: auth_header(@user)
       expect(response).to be_successful
-      expect(response.parsed_body['id']).to_equal @user.id
+      expect(response.parsed_body['user']['id']).to eq @user.id
     end
   end
 end

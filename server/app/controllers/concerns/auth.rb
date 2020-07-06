@@ -6,7 +6,7 @@ module Auth
     # include JsonWebToken
 
     protect_from_forgery with: :exception, unless: -> { running_test_suite }
-    before_action :cache_session_user, :require_session, :cache_session
+    # before_action :cache_session_user, :require_session, :cache_session
 
     rescue_from ActiveRecord::RecordNotFound do |e|
       error([:not_found])
@@ -18,13 +18,10 @@ module Auth
     end
 
     def cache_session_user
-      p @current_user
-      p session
       @current_user = User.find_by(id: session[:identity]) if session[:identity]
     end
 
     def require_session
-      p @current_user
       return error([:unauthorized_request]) unless @current_user
     end
 

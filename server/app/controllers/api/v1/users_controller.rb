@@ -8,8 +8,5 @@ class Api::V1::UsersController < Api::V1::BaseController
     @PERMISSIONS = true
   end
 
-  skip_before_action :require_session, only: [:create]
-  def after_create
-    signin @model
-  end
+  skip_before_action :authenticate_request, only: [:create]
 end

@@ -1,19 +1,10 @@
 module SpecTestHelper
-  def signin(user)
-    session_params = {
-      email: user.email,
-      password: user.password
-    }
-    post '/session', params: { session: session_params }
+
+  def auth_header(user)
+    token = JsonWebToken.encode(user_id: user.id)
+    { 'Authorization' => "Bearer #{token}"}
   end
 
-  def signout
-    # cookies[:identity] = nil
-  end
-
-  # def current_user
-  #   User.find(session[:identity])
-  # end
 end
 
 RSpec.configure do |config|
