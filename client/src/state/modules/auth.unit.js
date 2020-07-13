@@ -116,6 +116,7 @@ describe('@state/modules/auth', () => {
 const validUserExample = {
   id: 1,
   username: 'admin',
+  email: 'admin@gearhound.com',
   name: 'Vue Master',
   token: 'valid-token-for-admin',
 }

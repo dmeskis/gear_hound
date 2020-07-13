@@ -1,5 +1,4 @@
 import * as usersModule from './users'
-import { assertions } from '@/node_modules/expect/build/index'
 
 describe('@state/modules/users', () => {
   it('exports a valid Vuex module', () => {
@@ -66,7 +65,7 @@ describe('@state/modules/users', () => {
       expect.assertions(1)
 
       return store
-        .dispatch('createUser', { username: '', password: 'password'})
+        .dispatch('create', { username: '', password: 'password'})
         .catch((error) => {
           expect(error.response.status).toEqual(401)
         })

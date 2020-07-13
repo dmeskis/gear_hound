@@ -34,10 +34,21 @@ module.exports = {
       }
     })
   },
-  createUser({ username, email, password}) {
-    // return new Promise((resolve, reject ) => {
-    //   const user = 
-    // })
+  create({ username, email, password}) {
+    const matchedUser = this.all.find(
+      (user) => user.username === username || user.email === email
+    )
+    if (matchedUser) {
+      reject(new Error('Not Acceptable'))
+    } else {
+      const user = {
+        id: 3,
+        username,
+        email,
+        password,
+      }
+      resolve(user)
+    }
   },
   findBy(propertyName, value) {
     const matchedUser = this.all.find((user) => user[propertyName] === value)

@@ -1,18 +1,29 @@
 import axios from 'axios'
+import {
+  BaseState,
+  BaseActions,
+  BaseMutations,
+  BaseGetters,
+} from "@utils/mixins/store"
 
 export const state = {
+  ...BaseState,
   cached: [],
 }
 
-export const getters = {}
+export const getters = {
+  ...BaseGetters
+}
 
 export const mutations = {
+  ...BaseMutations,
   CACHE_USER(state, newUser) {
     state.cached.push(newUser)
   },
 }
 
 export const actions = {
+  ...BaseActions,
   fetchUser({ commit, state, rootState }, { username }) {
     // 1. Check if we already have the user as a current user.
     const { currentUser } = rootState.auth
