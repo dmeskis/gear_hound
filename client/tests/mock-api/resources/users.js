@@ -5,12 +5,14 @@ module.exports = {
     {
       id: 1,
       username: 'admin',
+      email: 'admin@gearhound.com',
       password: 'password',
       name: 'Vue Master',
     },
     {
       id: 2,
       username: 'user1',
+      email: 'user1@gearhound.com',
       password: 'password',
       name: 'User One',
     },
@@ -31,6 +33,11 @@ module.exports = {
         reject(new Error('Invalid user credentials.'))
       }
     })
+  },
+  createUser({ username, email, password}) {
+    // return new Promise((resolve, reject ) => {
+    //   const user = 
+    // })
   },
   findBy(propertyName, value) {
     const matchedUser = this.all.find((user) => user[propertyName] === value)

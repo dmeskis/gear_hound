@@ -1,4 +1,5 @@
 import * as usersModule from './users'
+import { assertions } from '@/node_modules/expect/build/index'
 
 describe('@state/modules/users', () => {
   it('exports a valid Vuex module', () => {
@@ -49,6 +50,23 @@ describe('@state/modules/users', () => {
 
       return store
         .dispatch('fetchUser', { username: 'admin' })
+        .catch((error) => {
+          expect(error.response.status).toEqual(401)
+        })
+    })
+  })
+
+  describe('creates a user', () => {
+    let store
+    beforeEach(() => {
+      store = createModuleStore(usersModule)
+    })
+
+    it ('actions.createUser rejects with 401 when missing a username', () => {
+      expect.assertions(1)
+
+      return store
+        .dispatch('createUser', { username: '', password: 'password'})
         .catch((error) => {
           expect(error.response.status).toEqual(401)
         })
