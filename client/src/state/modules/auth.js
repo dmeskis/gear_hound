@@ -32,7 +32,7 @@ export const actions = {
     if (getters.loggedIn) return dispatch('validate')
 
     return axios
-      .post('/session', { username, password })
+      .post('/api/session', { username, password })
       .then((response) => {
         const user = response.data
         commit('SET_CURRENT_USER', user)
