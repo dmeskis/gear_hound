@@ -23,10 +23,12 @@ module.exports = (app) => {
   })
 
   app.post('/api/users', (request, response) => {
+    console.log('wtf')
+
     const username = request.params.username
     const email = request.params.email
     const password = request.params.password
-
+    console.log('wtf')
     if (Users.create(request.params)) {
       return response.status(200).json({
         message: 'Created'

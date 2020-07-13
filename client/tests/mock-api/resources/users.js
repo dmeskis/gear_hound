@@ -40,6 +40,10 @@ module.exports = {
     )
     if (matchedUser) {
       reject(new Error('Not Acceptable'))
+      console.log('yasodjifoijpasdf')
+    } else if (!username || !email) {
+      reject(new Error('Not Acceptable'))
+      console.log('asopdfjpaiosfjopiasd')
     } else {
       const user = {
         id: 3,
@@ -47,6 +51,7 @@ module.exports = {
         email,
         password,
       }
+      console.log(user)
       resolve(user)
     }
   },

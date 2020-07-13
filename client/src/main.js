@@ -18,6 +18,9 @@ if (process.env.VUE_APP_TEST === 'e2e') {
 const app = new Vue({
   router,
   store,
+  created() {
+    this.$store.dispatch('bindNamespaces', this.$store);
+  },
   render: (h) => h(App),
 }).$mount('#app')
 

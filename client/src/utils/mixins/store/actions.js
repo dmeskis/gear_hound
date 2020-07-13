@@ -1,4 +1,5 @@
 import axios from "axios"
+const _ = require('lodash')
 
 export default {
   setNamespace({ state}, namespace) {
@@ -45,16 +46,19 @@ export default {
     commit("SET_LOADING", true)
     commit("CLEAR_ERRORS")
 
-    // var modelNamespace = _.snakeCase(payload.model)
+    var modelNamespace = _.snakeCase(payload.model)
+    console.log('poop!')
     console.log(state._namespace)
-
     axios
       .post('/api/users', payload.params)
       .then((response) => {
-        // commit("SET_MODEL", response.data[modelNamespace])
+        console.log(response)
+        console.log('YERT')
+        commit("SET_MODEL", response.data[modelNamespace])
         commit("PUSH_ALL", response)
       })
       .catch((e) => {
+        console.log('error')
         commit("SET_ERRORS", e)
       })
       .finally(() => {
