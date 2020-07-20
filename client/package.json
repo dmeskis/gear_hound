@@ -45,7 +45,7 @@
     "fibers": "^4.0.2",
     "gifsicle": "^5.0.0",
     "jest": "24.9.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "node-sass": "^4.13.1",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",
