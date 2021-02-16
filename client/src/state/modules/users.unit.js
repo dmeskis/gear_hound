@@ -54,6 +54,33 @@ describe('@state/modules/users', () => {
         })
     })
   })
+
+  describe('creates a user', () => {
+    let store
+    beforeEach(() => {
+      store = createModuleStore(usersModule)
+    })
+
+    it ('actions.create rejects with 401 when missing a username', () => {
+      expect.assertions(1)
+
+      return store
+        .dispatch('create', { username: '', password: 'password'})
+        .catch((error) => {
+          expect(error.response.status).toEqual(401)
+        })
+    })
+
+    it ('actions.create succeeds with 200', () => {
+      expect.assertions(1)
+
+      return store
+        .dispatch('create', { username: 'Valid', email: 'valid@email.com', password: 'password'})
+        .catch((error) => {
+          expect(error.response.status).toEqual(200)
+        })
+    })
+  })
 })
 
 const validUserExample = {

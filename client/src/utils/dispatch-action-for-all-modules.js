@@ -8,7 +8,6 @@ export default function dispatchActionForAllModules(
   // For every module...
   for (const moduleName in modules) {
     const moduleDefinition = modules[moduleName]
-
     // If the action is defined on the module...
     if (moduleDefinition.actions && moduleDefinition.actions[actionName]) {
       // Dispatch the action if the module is namespaced. Otherwise,
